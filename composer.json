@@ -1,5 +1,5 @@
 {
-    "name": "sat/cfdi",
+    "name": "sat/monorepo",
     "description": "para crear el xml del cfdi",
     "authors": [
         {
@@ -19,12 +19,11 @@
     },
     "replace": {
         "cfdi/complementos": "self.version",
-        "cfdi/xml": "self.version"
+        "sat/cfdi": "self.version"
     },
     "autoload": {
         "psr-4": {
-            "Cfdi\\Complementos\\": "packages/complementos/src",
-            "Sat\\Cfdi\\": "packages/xml/src",
+            "Sat\\": "packages/cfdi/src",
             "Sat\\Cfdi\\Complementos\\": "packages/complementos/src"
         }
     },
@@ -39,6 +38,7 @@
         }
     },
     "scripts": {
+        "server": "php -S localhost:8000 -t apps/server/src",
         "symplify": "./vendor/bin/monorepo-builder",
         "test": "./vendor/bin/pest"
     }
