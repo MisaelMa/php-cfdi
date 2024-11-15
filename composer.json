@@ -23,8 +23,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Cfdi\\Complementos\\": "packages/complementos/src",
-            "Sat\\": "packages/cfdi/src"
+            "Sat\\": "packages/cfdi/src",
+            "Sat\\Cfdi\\Complementos\\": "packages/complementos/src"
         }
     },
     "autoload-dev": {

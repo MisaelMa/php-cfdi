@@ -2,6 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Sat\Complementos;
+namespace Sat\Cfdi\Complementos;
 
-final class Iedu {}
+class Iedu
+{
+    public static  function iedu(): string
+    {
+        return 'Iedu';
+    }
+}
