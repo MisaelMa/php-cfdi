@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Sat\Cfdi;
+namespace Sat\CFDI;
 
 class Xml
 {
