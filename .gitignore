@@ -1,0 +1,40 @@
+# Ignorar archivos de Composer
+/vendor/
+composer.lock
+
+# Archivos de configuración locales
+/.env.local
+/.env.*.local
+
+# Ignorar la carpeta de cache de Symfony (que se genera al ejecutar)
+var/cache/
+var/log/
+
+# Ignorar archivos de logs de Symfony
+*.log
+
+# Ignorar el directorio de backups (si lo utilizas)
+var/backups/
+
+# Ignorar directorios específicos de IDEs
+.idea/
+.vscode/
+
+# Ignorar archivos de dependencias o bibliotecas de otros lenguajes (si los hay)
+node_modules/
+bower_components/
+
+# Ignorar archivos generados
+*.phar
+
+# Ignorar archivos de pruebas generados automáticamente
+phpunit.result.cache
+
+# Ignorar archivos de entorno de desarrollo
+.DS_Store  # Para sistemas MacOS
+
+# Ignorar archivos de sistema de Windows
+Thumbs.db
+
+# Ignorar archivos específicos de Composer, como el lockfile cuando se maneja en varias instancias
+composer.phar

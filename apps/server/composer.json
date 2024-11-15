@@ -1,0 +1,35 @@
+{
+    "name": "server/api",
+    "scripts": {
+        "dev": [
+          "php -S localhost:8000 -t src"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "Server\\Api\\": "src/",
+            "Sat\\Cfdi\\": "packages/xml/src",
+            "Sat\\Cfdi\\Complementos\\": "packages/complementos/src"
+        }
+    },
+    "authors": [
+        {
+            "name": "MisaelMa",
+            "email": "amisael.amir.misael@gmail.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../packages/xml"
+        },
+        {
+            "type": "path",
+            "url": "../../packages/complementos"
+        }
+    ],
+    "require": {
+        "cfdi/xml": "self.version",
+        "cfdi/complementos": "self.version"
+    }
+}
