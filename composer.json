@@ -17,6 +17,10 @@
         "phpstan/phpstan": "^0.12",
         "symplify/monorepo-builder": "^11.2"
     },
+    "replace": {
+        "cfdi/complementos": "self.version",
+        "cfdi/xml": "self.version"
+    },
     "autoload": {
         "psr-4": {
             "Cfdi\\Complementos\\": "packages/complementos/src",
@@ -29,19 +33,13 @@
             "Symplify\\Tests\\": "tests"
         }
     },
-    "replace": {
-        "cfdi/complementos": "self.version",
-        "cfdi/xml": "self.version"
-    },
     "config": {
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
     },
     "scripts": {
-        "test": [
-            "composer --working-dir=packages/xml test",
-            "composer --working-dir=packages/complementos test"
-        ]
+        "symplify": "./vendor/bin/monorepo-builder",
+        "test": "./vendor/bin/pest"
     }
 }
