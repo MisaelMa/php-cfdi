@@ -1,4 +1,5 @@
 # Ignorar archivos de Composer
+**/vendor/
 /vendor/
 composer.lock
 
