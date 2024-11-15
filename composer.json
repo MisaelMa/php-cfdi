@@ -9,20 +9,39 @@
     ],
     "require": {
         "php": "^8.3",
-        "symfony/dependency-injection": "^5.0",
-        "symfony/http-kernel": "^5.0"
+        "symfony/dependency-injection": "^7.1.8",
+        "symfony/http-kernel": "^7.1.8"
     },
     "require-dev": {
+        "pestphp/pest": "^3.5",
+        "phpstan/phpstan": "^0.12",
         "symplify/monorepo-builder": "^11.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cfdi\\Complementos\\": "packages/complementos/src",
+            "Sat\\Cfdi\\": "packages/xml/src",
+            "Sat\\Cfdi\\Complementos\\": "packages/complementos/src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Symplify\\Tests\\": "tests"
+        }
     },
     "replace": {
         "cfdi/complementos": "self.version",
         "cfdi/xml": "self.version"
     },
-    "autoload": {
-        "psr-4": {
-            "Sat\\Cfdi\\": "packages/xml/src",
-            "Sat\\Cfdi\\Complementos\\": "packages/complementos/src"
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
         }
+    },
+    "scripts": {
+        "test": [
+            "composer --working-dir=packages/xml test",
+            "composer --working-dir=packages/complementos test"
+        ]
     }
 }

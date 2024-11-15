@@ -1,13 +1,24 @@
 {
     "name": "cfdi/complementos",
     "version": "1.0.0",
+    "scripts": {
+        "test": "pest"
+    },
     "require": {
         "php": "^8.3",
-        "symfony/dependency-injection": "^5.0"
+        "symfony/dependency-injection": "^7.1.8"
     },
     "autoload": {
         "psr-4": {
             "Cfdi\\Complementos\\": "src"
+        }
+    },
+    "require-dev": {
+        "pestphp/pest": "^3.5"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
         }
     }
 }
