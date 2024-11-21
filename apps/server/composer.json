@@ -8,7 +8,7 @@
     "autoload": {
         "psr-4": {
             "Server\\Api\\": "src/",
-            "Sat\\Cfdi\\": "packages/xml/src",
+            "Sat\\": "packages/cfdi/src",
             "Sat\\Cfdi\\Complementos\\": "packages/complementos/src"
         }
     },
@@ -21,7 +21,7 @@
     "repositories": [
         {
             "type": "path",
-            "url": "../../packages/xml"
+            "url": "../../packages/cfdi"
         },
         {
             "type": "path",
@@ -29,7 +29,7 @@
         }
     ],
     "require": {
-        "cfdi/xml": "self.version",
+        "sat/cfdi": "self.version",
         "cfdi/complementos": "self.version"
     }
 }
