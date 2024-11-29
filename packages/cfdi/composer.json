@@ -3,7 +3,8 @@
     "version": "1.0.0",
     "require": {
         "php": "^8.3",
-        "symfony/http-kernel": "^7.1.8"
+        "symfony/http-kernel": "^7.1.8",
+        "spatie/array-to-xml": "^3.3"
     },
     "autoload": {
         "psr-4": {
