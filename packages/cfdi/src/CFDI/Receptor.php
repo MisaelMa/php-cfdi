@@ -1,69 +1,74 @@
-import {
-  XmlReceptor,
-  XmlReceptorAttribute,
-} from '../types';
+<?php
 
-import { Schema } from '@cfdi/xsd';
+namespace Sat\Cfdi;
 
 /**
- *
+ * Class Receptor
  */
-export class Receptor {
-  public receptor: XmlReceptor = {
-    _attributes: {
-      Rfc: '',
-      Nombre: '',
-      UsoCFDI: '',
-      DomicilioFiscalReceptor: '',
-      RegimenFiscalReceptor: '',
-    },
-  } as XmlReceptor;
+class Receptor
+{
+  private array $receptor = [
+    '_attributes' => [
+      'Rfc' => '',
+      'Nombre' => '',
+      'UsoCFDI' => '',
+      'DomicilioFiscalReceptor' => '',
+      'RegimenFiscalReceptor' => '',
+    ]
+  ];
 
   /**
-   *constructor
-   *
-   * @param receptor
-   * XmlReceptorAttribute
+   * Constructor
+   * 
+   * @param array $receptor
    */
-  constructor(receptor: XmlReceptorAttribute) {
-    Schema.of().cfdi.receptor.validate(receptor);
-    this.receptor._attributes = receptor;
+  public function __construct(array $receptor)
+  {
+    $this->receptor['_attributes'] = $receptor;
   }
 
-  setRFC(rfc: string): void {
-    this.receptor._attributes.Rfc = rfc;
+  public function setRFC(string $rfc): void
+  {
+    $this->receptor['_attributes']['Rfc'] = $rfc;
   }
 
-  setNombre(nombre: string): void {
-    this.receptor._attributes.Nombre = nombre;
+  public function setNombre(string $nombre): void
+  {
+    $this->receptor['_attributes']['Nombre'] = $nombre;
   }
 
-  setUsoCFDI(usoCFDI: string): void {
-    this.receptor._attributes.UsoCFDI = usoCFDI;
+  public function setUsoCFDI(string $usoCFDI): void
+  {
+    $this->receptor['_attributes']['UsoCFDI'] = $usoCFDI;
   }
 
-  setDomicilioFiscalReceptor(domicilioFiscalReceptor: string): void {
-    this.receptor._attributes.DomicilioFiscalReceptor = domicilioFiscalReceptor;
+  public function setDomicilioFiscalReceptor(string $domicilioFiscalReceptor): void
+  {
+    $this->receptor['_attributes']['DomicilioFiscalReceptor'] = $domicilioFiscalReceptor;
   }
 
-  setResidenciaFiscal(residenciaFiscal: string): void {
-    this.receptor._attributes.ResidenciaFiscal = residenciaFiscal;
+  public function setResidenciaFiscal(string $residenciaFiscal): void
+  {
+    $this->receptor['_attributes']['ResidenciaFiscal'] = $residenciaFiscal;
   }
 
-  setNumRegIdTrib(numRegIdTrib: string): void {
-    this.receptor._attributes.NumRegIdTrib = numRegIdTrib;
+  public function setNumRegIdTrib(string $numRegIdTrib): void
+  {
+    $this->receptor['_attributes']['NumRegIdTrib'] = $numRegIdTrib;
   }
-  setRegimenFiscalReceptor(regimenFiscalReceptor: string): void {
-    this.receptor._attributes.RegimenFiscalReceptor = regimenFiscalReceptor;
+
+  public function setRegimenFiscalReceptor(string $regimenFiscalReceptor): void
+  {
+    $this->receptor['_attributes']['RegimenFiscalReceptor'] = $regimenFiscalReceptor;
   }
 
   /**
-   *toJson
-   *
-   * @returns XmlReceptor
+   * toJson
+   * 
+   * @return array
    */
-  public toJson(): XmlReceptor {
-    Schema.of().cfdi.receptor.validate(this.receptor._attributes);
-    return this.receptor;
+  public function toArray(): array
+  {
+    return $this->receptor;
   }
 }

@@ -2,11 +2,12 @@
 
 namespace Sat\Cfdi;
 
+use Sat\Cfdi\Emisor;
+
 class Comprobante
 {
 
     protected $xml = [
-        'rootElementName' => 'cfdi:Comprobante',
         '_attributes' => [
             'xsi:schemaLocation' => '',
             'Version' => '4.0',
@@ -32,18 +33,18 @@ class Comprobante
 
     public function addXmlns($xmlnsKey, $xmlnsValue): void
     {
-        $this->xml['cfdi:Comprobante']['_attributes'][$xmlnsKey] = $xmlnsValue;
+        $this->xml['_attributes'][$xmlnsKey] = $xmlnsValue;
     }
 
     public function addSchemaLocation(array $locations): void
     {
         $SCHEMA_LOCATION = 'xsi:schemaLocation';
 
-        if (!isset($this->xml['cfdi:Comprobante']['_attributes'][$SCHEMA_LOCATION])) {
-            $this->xml['cfdi:Comprobante']['_attributes'][$SCHEMA_LOCATION] = '';
+        if (!isset($this->xml['_attributes'][$SCHEMA_LOCATION])) {
+            $this->xml['_attributes'][$SCHEMA_LOCATION] = '';
         }
 
-        $currentLocations = $this->xml['cfdi:Comprobante']['_attributes'][$SCHEMA_LOCATION] ?? '';
+        $currentLocations = $this->xml['_attributes'][$SCHEMA_LOCATION] ?? '';
 
         $listLocations = array_filter(explode(' ', $currentLocations));
 
@@ -51,7 +52,7 @@ class Comprobante
 
         $schemaLocation = implode(' ', $uniqueLocations);
 
-        $this->xml['cfdi:Comprobante']['_attributes'][$SCHEMA_LOCATION] = $schemaLocation;
+        $this->xml['_attributes'][$SCHEMA_LOCATION] = $schemaLocation;
     }
 
     public function setAttributesXml($attr = []): void
@@ -96,7 +97,7 @@ class Comprobante
         ];
 
         $attributes = array_merge(
-            $this->xml['cfdi:Comprobante']['_attributes'] ?? [],
+            $this->xml['_attributes'] ?? [],
             ['Version' => $this->version],
             $attribute,
             [
@@ -111,7 +112,7 @@ class Comprobante
 
         $sortedAttributes = $this->sortObject($attributes, $order);
 
-        $this->xml['cfdi:Comprobante']['_attributes'] = $sortedAttributes;
+        $this->xml['_attributes'] = $sortedAttributes;
 
         // TODO: Validar los atributos del comprobante
         /*  $comprobante = $this->schema['cfdi']['comprobante'];
@@ -123,9 +124,9 @@ class Comprobante
         // TODO: Validar los atributos de 'cfdi:InformacionGlobal'
         // $this->schema['cfdi']['informacionGlobal']->validate($payload);
 
-        $this->xml['cfdi:Comprobante'] = array_merge(
+        $this->xml = array_merge(
             ['cfdi:InformacionGlobal' => ['_attributes' => $payload]],
-            $this->xml['cfdi:Comprobante'] ?? []
+            $this->xml ?? []
         );
     }
 
@@ -137,9 +138,9 @@ class Comprobante
      */
     public function relacionados(/* Relacionado */array $relationCfdi): void
     {
-        $this->xml['cfdi:Comprobante'] = array_merge(
+        $this->xml = array_merge(
             ['cfdi:CfdiRelacionados' => $relationCfdi->getRelation()],
-            $this->xml['cfdi:Comprobante'] ?? []
+            $this->xml ?? []
         );
     }
 
@@ -150,9 +151,9 @@ class Comprobante
      * @param Emisor $emisor
      * Emisor
      */
-    public function emisor(/* Emisor */array $emisor): void
+    public function emisor(Emisor $emisor): void
     {
-        $this->xml['cfdi:Comprobante']['cfdi:Emisor'] = $emisor->emisor;
+        $this->xml['cfdi:Emisor'] = $emisor->toArray();
     }
 
 
@@ -161,9 +162,9 @@ class Comprobante
      *
      * @param Receptor $receptor
      */
-    public function receptor(/* Receptor */$receptor): void
+    public function receptor(Receptor $receptor): void
     {
-        $this->xml['cfdi:Comprobante']['cfdi:Receptor'] = $receptor->receptor;
+        $this->xml['cfdi:Receptor'] = $receptor->toArray();
     }
 
     /**
@@ -179,13 +180,13 @@ class Comprobante
             $this->addSchemaLocation($properties['schemaLocation']);
         }
 
-        if (!isset($this->xml['cfdi:Comprobante']['cfdi:Conceptos'])) {
-            $this->xml['cfdi:Comprobante']['cfdi:Conceptos'] = [
+        if (!isset($this->xml['cfdi:Conceptos'])) {
+            $this->xml['cfdi:Conceptos'] = [
                 'cfdi:Concepto' => [],
             ];
         }
 
-        $this->xml['cfdi:Comprobante']['cfdi:Conceptos']['cfdi:Concepto'][] = $concept->getConcept();
+        $this->xml['cfdi:Conceptos']['cfdi:Concepto'][] = $concept->getConcept();
     }
 
     /**
@@ -195,7 +196,7 @@ class Comprobante
      */
     public function impuesto(/* Impuestos */$impuesto): void
     {
-        $this->xml['cfdi:Comprobante']['cfdi:Impuestos'] = $impuesto->impuesto;
+        $this->xml['cfdi:Impuestos'] = $impuesto->impuesto;
     }
 
     /**
@@ -205,14 +206,14 @@ class Comprobante
      */
     public function complemento(/* ComplementType */$complements): void
     {
-        if (!isset($this->xml['cfdi:Comprobante']['cfdi:Complemento'])) {
-            $this->xml['cfdi:Comprobante']['cfdi:Complemento'] = [];
+        if (!isset($this->xml['cfdi:Complemento'])) {
+            $this->xml['cfdi:Complemento'] = [];
         }
 
         $complement = $complements->getComplement();
         $this->addXmlns($complement['xmlnskey'], $complement['xmlns']);
         $this->addSchemaLocation($complement['schemaLocation']);
-        $this->xml['cfdi:Comprobante']['cfdi:Complemento'][$complement['key']] = $complement['complement'];
+        $this->xml['cfdi:Complemento'][$complement['key']] = $complement['complement'];
     }
 
     /**
@@ -226,7 +227,7 @@ class Comprobante
             return;
         }
 
-        $this->xml['cfdi:Comprobante']['_attributes']['Certificado'] = $certificado;
+        $this->xml['_attributes']['Certificado'] = $certificado;
     }
 
     /**
@@ -240,7 +241,7 @@ class Comprobante
             return;
         }
 
-        $this->xml['cfdi:Comprobante']['_attributes']['NoCertificado'] = $noCertificado;
+        $this->xml['_attributes']['NoCertificado'] = $noCertificado;
     }
 
     /**
@@ -254,7 +255,7 @@ class Comprobante
             return;
         }
 
-        $this->xml['cfdi:Comprobante']['_attributes']['Sello'] = $sello;
+        $this->xml['_attributes']['Sello'] = $sello;
     }
 
     /**
@@ -262,15 +263,8 @@ class Comprobante
      */
     protected function restartCfdi(): void
     {
+
         $this->xml = [
-            '_declaration' => [
-                '_attributes' => [
-                    'version' => '1.0',
-                    'encoding' => 'utf-8',
-                ],
-            ],
-        ];
-        $this->xml['cfdi:Comprobante'] = [
             '_attributes' => [],
             'cfdi:Emisor' => [],
             'cfdi:Receptor' => [],

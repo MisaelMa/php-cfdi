@@ -1,243 +1,196 @@
-import {
-  ComlementTypeConcept,
-  ComplementProperties,
-  XmlComplementsConcepts,
-} from '@cfdi/complementos';
-import {
-  InformacionAduanera,
-  XmlConceptParteAttributes,
-  XmlConceptoAttributes,
-  XmlConceptoProperties,
-  XmlConceptoTercerosAttributes,
-  XmlTranRentAttributesProperties,
-} from '../types';
+<?php
 
-import { BaseImpuestos } from './BaseImpuestos';
-import { Schema } from '@cfdi/xsd';
+namespace Sat\Cfdi;
+
+use Sat\Cfdi\BaseImpuestos;
+
+/* use Cfdi\Complementos\ComlementTypeConcept;
+use Cfdi\Complementos\ComplementProperties;
+use Cfdi\Complementos\XmlComplementsConcepts;
+use Cfdi\Types\InformacionAduanera;
+use Cfdi\Types\XmlConceptParteAttributes;
+use Cfdi\Types\XmlConceptoAttributes;
+use Cfdi\Types\XmlConceptoProperties;
+use Cfdi\Types\XmlConceptoTercerosAttributes;
+use Cfdi\Types\XmlTranRentAttributesProperties;
+use Cfdi\BaseImpuestos;
+use Cfdi\Xsd\Schema; */
 
 /**
  *
  */
-export class Concepto extends BaseImpuestos {
-  // private conceptComplemnets: any = [
-  //   {
-  //     key: 'aerolineas:Aerolineas',
-  //     schemaLocation: [
-  //       'http://www.sat.gob.mx/terceros',
-  //       'http://www.sat.gob.mx/sitio_internet/cfd/terceros/terceros11.xsd',
-  //     ],
-  //     xmlns: 'http://www.sat.gob.mx/terceros',
-  //     xmlnskey: 'terceros',
-  //   },
-  //   {
-  //     key: 'ventavehiculos:VentaVehiculos',
-  //     schemaLocation: [
-  //       'http://www.sat.gob.mx/ventavehiculos',
-  //       'http://www.sat.gob.mx/sitio_internet/cfd/ventavehiculos/ventavehiculos11.xsd',
-  //     ],
-  //     xmlns: 'http://www.sat.gob.mx/ventavehiculos',
-  //     xmlnskey: 'ventavehiculos',
-  //   },
-  // ];
-
-  private existComplemnt = false;
-
-  private complementProperties: ComplementProperties =
-    {} as ComplementProperties;
-
-  private concepto: XmlConceptoProperties = {} as XmlConceptoProperties;
+class Concepto extends BaseImpuestos
+{
+  private bool $existComplemnt = false;
+  private array $complementProperties = [];
+  private array $concepto = [];
 
   /**
-   *constructor
+   * constructor
    *
-   * @param concepto
-   * XmlConceptoAttributes
+   * @param XmlConceptoAttributes $concepto
    */
-  constructor(concepto: XmlConceptoAttributes) {
-    super();
-    const cloneConcept = {
-      ...concepto,
-    };
-    this.existComplemnt = false;
-    Schema.of().concepto.concepto.validate(cloneConcept);
-    this.concepto._attributes = cloneConcept;
+  public function __construct(array $concepto = [])
+  {
+    parent::__construct();
+    $this->existComplemnt = false;
+    $this->concepto['_attributes'] = $concepto;
   }
 
   /**
-   *complemento
+   * complemento
    *
-   * @param data
-   * ComlementTypeConcept
+   * @param ComlementTypeConcept $data
    */
-  public complemento(data: ComlementTypeConcept): void {
-    if (!this.concepto['cfdi:ComplementoConcepto']) {
-      this.concepto['cfdi:ComplementoConcepto'] = {} as XmlComplementsConcepts;
+  public function complemento(array $data): void
+  {
+    if (!isset($this->concepto['cfdi:ComplementoConcepto'])) {
+      $this->concepto['cfdi:ComplementoConcepto'] = [];
     }
-    this.existComplemnt = true;
-    const { complement, key, schemaLocation, xmlns, xmlnskey } =
-      data.getComplement();
-    this.complementProperties.key = key;
-    this.complementProperties.xmlns = xmlns;
-    this.complementProperties.xmlnskey = xmlnskey;
-    this.complementProperties.schemaLocation = schemaLocation;
-    this.concepto['cfdi:ComplementoConcepto'][key] = complement;
+    $this->existComplemnt = true;
+    $complement = $data->getComplement();
+    $this->complementProperties['key'] = $complement['key'];
+    $this->complementProperties['xmlns'] = $complement['xmlns'];
+    $this->complementProperties['xmlnskey'] = $complement['xmlnskey'];
+    $this->complementProperties['schemaLocation'] = $complement['schemaLocation'];
+    $this->concepto['cfdi:ComplementoConcepto'][$complement['key']] = $complement['complement'];
   }
 
   /**
-   *terceros
+   * terceros
    *
-   * @param cuenta
-   * XmlConceptoTercerosAttributes
+   * @param XmlConceptoTercerosAttributes $cuenta
    */
-  terceros(cuenta: XmlConceptoTercerosAttributes): Concepto {
-    Schema.of().concepto.terceros.validate(cuenta);
-    this.concepto['cfdi:ACuentaTerceros'] = {
-      _attributes: cuenta,
-    };
-    return this;
+  public function terceros(array $cuenta): self
+  {
+    $this->concepto['cfdi:ACuentaTerceros'] = [
+      '_attributes' => $cuenta
+    ];
+    return $this;
   }
 
   /**
-   *predial
+   * predial
    *
-   * @param cuenta
-   *  string
+   * @param string $cuenta
    */
-  predial(cuenta: string): Concepto {
-    const pre = {
-      Numero: cuenta,
+  public function predial(string $cuenta): self
+  {
+    $pre = [
+      'Numero' => $cuenta
+    ];
+    $this->concepto['cfdi:CuentaPredial'] = [
+      '_attributes' => $pre
+    ];
+    return $this;
+  }
+
+  /**
+   * parte
+   *
+   * @param XmlConceptParteAttributes $parte
+   */
+  public function parte(array $parte): self
+  {
+    $cloneParte = [
+      'Cantidad' => floatval($parte->Cantidad),
+      'ValorUnitario' => floatval($parte->ValorUnitario),
+      'Importe' => floatval($parte->ValorUnitario)
+    ] + (array)$parte;
+
+    $this->concepto['cfdi:Parte'] = [
+      '_attributes' => $cloneParte
+    ];
+    return $this;
+  }
+
+  private function aduana(string $pedimento): array
+  {
+    $informacionAduanera = [
+      'NumeroPedimento' => $pedimento
+    ];
+
+    return [
+      '_attributes' => $informacionAduanera
+    ];
+  }
+
+  public function setParteInformacionAduanera(string $pedimento): self
+  {
+    if (!isset($this->concepto['cfdi:Parte'])) {
+      error_log('utilize primero parte');
+      return $this;
     }
-    Schema.of().concepto.predial.validate(pre);
-    this.concepto['cfdi:CuentaPredial'] = {
-      _attributes: pre
-    };
-    return this;
-  }
-
-  /**
-   *parte
-   *
-   * @param parte
-   * XmlConceptParteAttributes
-   */
-  parte(parte: XmlConceptParteAttributes): Concepto {
-    const cloneParte = {
-      ...parte,
-      Cantidad: Number(parte.Cantidad),
-      ValorUnitario: Number(parte.ValorUnitario),
-      Importe: Number(parte.ValorUnitario),
-    };
-
-    Schema.of().concepto.parte.validate(cloneParte);
-    this.concepto['cfdi:Parte'] = {
-      _attributes: cloneParte,
-    };
-    return this;
-  }
-
-  private aduana(pedimento: string): InformacionAduanera {
-    const InformacionAduanera = {
-      NumeroPedimento: pedimento,
-    };
-
-    Schema.of().concepto.informacionAduanera.validate(InformacionAduanera);
-    return {
-      _attributes: InformacionAduanera,
-    };
-  }
-
-  setParteInformacionAduanera(pedimento: string): Concepto {
-    if (!this.concepto['cfdi:Parte']) {
-      console.log('utilize primero parte');
-      return this;
+    if (!isset($this->concepto['cfdi:Parte']['cfdi:InformacionAduanera'])) {
+      $this->concepto['cfdi:Parte']['cfdi:InformacionAduanera'] = [];
     }
-    if (!this.concepto['cfdi:Parte']['cfdi:InformacionAduanera']) {
-      this.concepto['cfdi:Parte']['cfdi:InformacionAduanera'] = [];
-    }
-    this.concepto['cfdi:Parte']['cfdi:InformacionAduanera'].push(
-      this.aduana(pedimento)
-    );
-    return this;
+    $this->concepto['cfdi:Parte']['cfdi:InformacionAduanera'][] = $this->aduana($pedimento);
+    return $this;
   }
 
   /**
-   *aduana
+   * aduana
    *
-   * @param pedimento
-   * number | string
+   * @param string $pedimento
    */
-  InformacionAduanera(pedimento: string): Concepto {
-    if (!this.concepto['cfdi:InformacionAduanera']) {
-      this.concepto['cfdi:InformacionAduanera'] = [];
+  public function InformacionAduanera(string $pedimento): self
+  {
+    if (!isset($this->concepto['cfdi:InformacionAduanera'])) {
+      $this->concepto['cfdi:InformacionAduanera'] = [];
     }
-
-    this.concepto['cfdi:InformacionAduanera'].push(this.aduana(pedimento));
-    return this;
+    $this->concepto['cfdi:InformacionAduanera'][] = $this->aduana($pedimento);
+    return $this;
   }
 
   /**
-   *traslado
+   * traslado
    *
-   * @param traslado
-   * XmlTranRentAttributesProperties
+   * @param array $payload
    */
-  traslado(
-    payload: XmlTranRentAttributesProperties & { Base: string | number }
-  ): Concepto {
-    const traslado = {
-      ...payload
-    };
-    Schema.of().concepto.traslado.validate(traslado);
-    this.setTraslado(traslado);
-    this.concepto['cfdi:Impuestos'] = this.impuesto;
-    return this;
+  public function traslado(array $payload): self
+  {
+    $traslado = $payload;
+    $this->setTraslado($traslado);
+    $this->concepto['cfdi:Impuestos'] = $this->impuesto;
+    return $this;
   }
 
   /**
-   *retencion
+   * retencion
    *
-   * @param retencion
-   * XmlTranRentAttributesProperties
+   * @param array $payload
    */
-  retencion(
-    payload: XmlTranRentAttributesProperties & {
-      Base: string | number;
-      TasaOCuota: string | number;
-      Importe: string | number;
-    }
-  ): Concepto {
-    const retencion = {
-      ...payload,
-      //Importe: Number(payload.Importe),
-    };
-    //Schema.of().concepto.retencion.validate(retencion);
-
-    this.setRetencion(retencion);
-    this.concepto['cfdi:Impuestos'] = this.impuesto;
-    return this;
+  public function retencion(array $payload): self
+  {
+    $retencion = $payload;
+    $this->setRetencion($retencion);
+    $this->concepto['cfdi:Impuestos'] = $this->impuesto;
+    return $this;
   }
 
   /**
-   *getConcept
+   * getConcept
    */
-  getConcept(): XmlConceptoProperties {
-    const concept = { ...this.concepto };
-    this.concepto = {} as XmlConceptoProperties;
-    // console.log(this.concepto)
-    return concept;
+  public function getConcept(): array
+  {
+    $concept = $this->concepto;
+    $this->concepto = [];
+    return $concept;
   }
 
   /**
-   *isComplement
+   * isComplement
    */
-  isComplement(): boolean {
-    return this.existComplemnt;
+  public function isComplement(): bool
+  {
+    return $this->existComplemnt;
   }
 
   /**
-   *getComplementProperties
+   * getComplementProperties
    */
-  getComplementProperties(): ComplementProperties {
-    return this.complementProperties;
+  public function getComplementProperties(): array
+  {
+    return $this->complementProperties;
   }
 }

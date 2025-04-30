@@ -1,48 +1,53 @@
-import { XmlRelacionados, XmlRelacionadosAttributes } from '../types';
+<?php
 
-import { Schema } from '@cfdi/xsd';
+namespace Sat\Cfdi;
 
-/**
- *
+/*
+ use Cfdi\Types\XmlRelacionados;
+use Cfdi\Types\XmlRelacionadosAttributes;
+use Cfdi\Xsd\Schema;
  */
-export class Relacionado {
-  private relacionada = {} as XmlRelacionados;
+
+class Relacionado
+{
+  private array $relacionada = [];
+
   /**
    * constructor
    *
-   * @param typeRelation
-   * XmlRelacionadosAttributes
+   * @param XmlRelacionadosAttributes $typeRelation
    */
-  constructor(typeRelation: XmlRelacionadosAttributes) {
-    Schema.of().cfdi.relacionados.validate(typeRelation);
-    this.relacionada._attributes = typeRelation;
+  public function __construct(array $typeRelation)
+  {
+    $this->relacionada['_attributes'] = $typeRelation;
   }
 
   /**
    *addRelation
    *
-   * @param uuid
-   * string
+   * @param string $uuid
    */
-  addRelation(uuid: string): void {
-    if (!this.relacionada['cfdi:CfdiRelacionado']) {
-      this.relacionada['cfdi:CfdiRelacionado'] = [];
+  public function addRelation(string $uuid): void
+  {
+    if (!isset($this->relacionada['cfdi:CfdiRelacionado'])) {
+      $this->relacionada['cfdi:CfdiRelacionado'] = [];
     }
-    const relation = { UUID: uuid };
-    Schema.of().cfdi.relacionado.validate(relation);
-    this.relacionada['cfdi:CfdiRelacionado'].push({
-      _attributes: relation
-    });
+    $relation = ['UUID' => $uuid];
+    $this->relacionada['cfdi:CfdiRelacionado'][] = [
+      '_attributes' => $relation
+    ];
   }
 
   /**
    *getRelation
    */
-  getRelation(): XmlRelacionados {
-    return this.relacionada;
+  public function getRelation(): array
+  {
+    return $this->relacionada;
   }
 
-  toJson(): XmlRelacionados {
-    return this.relacionada;
+  public function toJson(): array
+  {
+    return $this->relacionada;
   }
 }

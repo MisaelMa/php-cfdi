@@ -3,11 +3,27 @@
 
 namespace Sat;
 
-class CFDI
-{
+use Sat\Cfdi\Comprobante;
+use Spatie\ArrayToXml\ArrayToXml;
 
-    public static function cfdi(): string
+class CFDI extends Comprobante
+{
+    private function formatXML($xml)
     {
-        return 'hello world cfdi Sat';
+        $dom = new \DOMDocument();
+        $dom->preserveWhiteSpace = false;
+        $dom->formatOutput = true;
+        $dom->loadXML($xml);
+        return $dom->saveXML();
+    }
+
+    public function getXmlCdfi(): string
+    {
+        var_dump($this->xml);
+        $xml_string = ArrayToXml::convert($this->xml, 'cfdi:Comprobante');
+        $xml = $this->formatXML($xml_string);
+        var_dump($xml);
+
+        return $xml;
     }
 }

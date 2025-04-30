@@ -1,6 +1,7 @@
 <?php
 
 use Sat\Cfdi\BaseImpuestos;
+use Sat\Types\XmlImpuestos;
 
 describe('base_impuetos', function () {
 
@@ -9,6 +10,7 @@ describe('base_impuetos', function () {
         $totalImpuestos = [
             'TotalImpuestosTrasladados' => '100.00',
         ];
+
 
         $baseImpuestos = new BaseImpuestos($totalImpuestos);
 

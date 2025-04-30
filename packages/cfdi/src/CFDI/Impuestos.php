@@ -1,49 +1,37 @@
-import {
-  XmlImpuestos,
-  XmlImpuestosTrasladados,
-  XmlRetencionAttributes,
-  XmlRetenciones,
-  XmlTranRentAttributesProperties,
-  XmlTranslado,
-  XmlTransladoAttributes,
-} from '../types';
+<?php
 
-import { BaseImpuestos } from './BaseImpuestos';
-import { Schema } from '@cfdi/xsd';
-import { stringObjToNumerico } from '../utils/number.utils';
+namespace Sat\Cfdi;
 
-/**
- *
- */
-export class Impuestos extends BaseImpuestos {
-  constructor(
-    TotalImpuestos: XmlImpuestosTrasladados = {} as XmlImpuestosTrasladados
-  ) {
-    super(TotalImpuestos);
+use Sat\Cfdi\BaseImpuestos;
+/* use Cfdi\Types\XmlImpuestos;
+use Cfdi\Types\XmlImpuestosTrasladados;
+use Cfdi\Types\XmlRetencionAttributes;
+use Cfdi\Types\XmlRetenciones;
+use Cfdi\Types\XmlTranRentAttributesProperties;
+use Cfdi\Types\XmlTranslado;
+use Cfdi\Types\XmlTransladoAttributes;
+use Cfdi\BaseImpuestos;
+use Cfdi\Schema;
+use Cfdi\Utils\NumberUtils; */
+
+class Impuestos extends BaseImpuestos
+{
+  public function __construct(array $totalImpuestos = [])
+  {
+    parent::__construct($totalImpuestos);
   }
 
-  traslados(
-    payload: XmlTranRentAttributesProperties & { Base: string | number }
-  ) {
-    const traslado = {
-      ...payload,
-    };
-    Schema.of().cfdi.traslado.validate(traslado);
-    this.setTraslado(traslado);
-    return this;
+  public function traslados(array $payload)
+  {
+    $traslado = $payload;
+    $this->setTraslado($traslado);
+    return $this;
   }
-  
-  retenciones(
-    payload: Omit<
-      XmlTranRentAttributesProperties,
-      'Base' | 'TipoFactor' | 'TasaOCuota'
-    >
-  ) {
-    const retencion = {
-      ...payload
-    };
-    Schema.of().cfdi.retencion.validate(retencion);
-    this.setRetencion(retencion);
-    return this;
+
+  public function retenciones(array $payload)
+  {
+    $retencion = $payload;
+    $this->setRetencion($retencion);
+    return $this;
   }
 }

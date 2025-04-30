@@ -19,13 +19,16 @@ use Sat\Utils\Map;
 /**
  * Class BaseImpuestos
  */
+
+
+
 class BaseImpuestos
 {
   public $impuesto = [
     '_attributes' => [],
-    'cfdi:Retenciones' => [
+    /* 'cfdi:Retenciones' => [
       'cfdi:Retencion' => [],
-    ],
+    ], */
     'cfdi:Traslados' => [
       'cfdi:Traslado' => [],
     ],

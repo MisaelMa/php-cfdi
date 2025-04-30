@@ -1,51 +1,54 @@
-import { XmlEmisor, XmlEmisorAttribute } from '../types';
+<?php
 
-import { Schema } from '@cfdi/xsd';
+namespace Sat\Cfdi;
 
-/**
- *
- */
-export class Emisor {
-  public emisor: XmlEmisor = {
-    _attributes: {
-      Rfc: '',
-      Nombre: '',
-      RegimenFiscal: '',
-    },
-  } as XmlEmisor;
+class Emisor
+{
+  private array $emisor = [
+    '_attributes' => [
+      'Rfc' => '',
+      'Nombre' => '',
+      'RegimenFiscal' => '',
+    ]
+  ];
+
   /**
-   *constructor
+   * constructor
    *
-   * @param emisor
-   * XmlEmisorAttribute
+   * @param array $emisor
    */
-  constructor(emisor: XmlEmisorAttribute) {
-    Schema.of().cfdi.emisor.validate(emisor);
-    this.emisor._attributes = emisor;
+  public function __construct(array $emisor)
+  {
+    $this->emisor['_attributes'] = $emisor;
   }
 
-  setRfc(rfc: string): void {
-    this.emisor._attributes.Rfc = rfc;
+  public function setRfc(string $rfc): void
+  {
+    $this->emisor['_attributes']['Rfc'] = $rfc;
   }
 
-  setNombre(nombre: string): void {
-    this.emisor._attributes.Nombre = nombre;
+  public function setNombre(string $nombre): void
+  {
+    $this->emisor['_attributes']['Nombre'] = $nombre;
   }
 
-  setRegimenFiscal(regimenFiscal: string | number): void {
-    this.emisor._attributes.RegimenFiscal = regimenFiscal;
+  public function setRegimenFiscal(string|int $regimenFiscal): void
+  {
+    $this->emisor['_attributes']['RegimenFiscal'] = $regimenFiscal;
   }
 
-  setFacAtrAdquirente(facAtrAdquirente: string | number): void {
-    this.emisor._attributes.FacAtrAdquirente = facAtrAdquirente;
+  public function setFacAtrAdquirente(string|int $facAtrAdquirente): void
+  {
+    $this->emisor['_attributes']['FacAtrAdquirente'] = $facAtrAdquirente;
   }
+
   /**
-   *toJson
+   * toJson
    *
-   * @returns XmlEmisor
+   * @return array
    */
-  public toJson(): XmlEmisor {
-    Schema.of().cfdi.emisor.validate(this.emisor._attributes);
-    return this.emisor;
+  public function toArray(): array
+  {
+    return $this->emisor;
   }
 }
