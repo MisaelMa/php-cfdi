@@ -1,0 +1,13 @@
+{
+    "name": "cli/openssl",
+    "version": "1.0.0",
+    "require": {
+        "php": "^8.3",
+        "symfony/dependency-injection": "^7.1.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cli\\Openssl\\": "src"
+        }
+    }
+}

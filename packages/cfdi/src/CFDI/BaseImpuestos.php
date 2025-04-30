@@ -29,9 +29,9 @@ class BaseImpuestos
     /* 'cfdi:Retenciones' => [
       'cfdi:Retencion' => [],
     ], */
-    'cfdi:Traslados' => [
+    /*  'cfdi:Traslados' => [
       'cfdi:Traslado' => [],
-    ],
+    ], */
   ];
 
   /**
@@ -55,7 +55,7 @@ class BaseImpuestos
    */
   public function setTraslado(array $traslado): self
   {
-    if (!isset($this->impuesto->{'cfdi:Traslados'})) {
+    if (!isset($this->impuesto['cfdi:Traslados'])) {
       $this->impuesto['cfdi:Traslados'] = [
         'cfdi:Traslado' => [],
       ];

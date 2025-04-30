@@ -1,0 +1,21 @@
+{
+    "name": "sat/csd",
+    "version": "1.0.0",
+    "require": {
+        "php": "^8.3",
+        "symfony/dependency-injection": "^7.1.8",
+         "cli/openssl": "self.version"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sat\\Csd\\": "src",
+            "Cli\\Openssl\\": "packages/openssl/src"
+        }
+    },
+    "repositories": [
+        {
+             "type": "path",
+            "url": "../../packages/cfdi"
+        }
+    ]
+}
