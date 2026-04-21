@@ -1,0 +1,13 @@
+{
+    "name": "cfdi/descarga",
+    "version": "1.0.0",
+    "require": {
+        "php": "^8.3",
+        "ext-openssl": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cfdi\\Descarga\\": "src"
+        }
+    }
+}

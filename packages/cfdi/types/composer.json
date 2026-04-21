@@ -1,0 +1,16 @@
+{
+    "name": "cfdi/types",
+    "description": "PHP contracts for CFDI comprobante XML structures (aligned with @cfdi/types)",
+    "license": "MIT",
+    "require": {
+        "php": "^8.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cfdi\\Types\\": "src/"
+        },
+        "classmap": [
+            "src/"
+        ]
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "name": "cfdi/validador",
+    "version": "1.0.0",
+    "require": {
+        "php": "^8.3",
+        "ext-dom": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cfdi\\Validador\\": "src"
+        }
+    }
+}

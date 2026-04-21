@@ -1,0 +1,12 @@
+{
+    "name": "cfdi/retenciones",
+    "version": "1.0.0",
+    "require": {
+        "php": "^8.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cfdi\\Retenciones\\": "src"
+        }
+    }
+}

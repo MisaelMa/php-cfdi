@@ -10,7 +10,8 @@
     "require": {
         "php": "^8.3",
         "symfony/dependency-injection": "^7.1.8",
-        "symfony/http-kernel": "^7.1.8"
+        "symfony/http-kernel": "^7.1.8",
+        "spatie/array-to-xml": "^3.3"
     },
     "require-dev": {
         "pestphp/pest": "^3.5",
@@ -19,12 +20,50 @@
     },
     "replace": {
         "cfdi/complementos": "self.version",
+        "cfdi/designs": "self.version",
+        "cfdi/schema": "self.version",
+        "cfdi/xsd": "self.version",
+        "cfdi/types": "self.version",
         "sat/cfdi": "self.version"
     },
     "autoload": {
+        "classmap": [
+            "packages/cfdi/types/src"
+        ],
         "psr-4": {
-            "Sat\\": "packages/cfdi/src",
-            "Sat\\Cfdi\\Complementos\\": "packages/complementos/src"
+            "Sat\\": "packages/sat/cfdi/src",
+            "Sat\\Csd\\": "packages/sat/csd/src",
+            "Sat\\Auth\\": "packages/sat/auth/src",
+            "Sat\\Pacs\\": "packages/sat/pacs/src",
+            "Sat\\Recursos\\": "packages/sat/recursos/src",
+            "Sat\\Banxico\\": "packages/sat/banxico/src",
+            "Sat\\Cfdi\\Complementos\\": "packages/sat/complementos/src",
+            "Cfdi\\Catalogos\\": "packages/sat/catalogos/src",
+            "Cfdi\\Rfc\\": "packages/sat/rfc/src",
+            "Cfdi\\Validador\\": "packages/sat/validador/src",
+            "Cfdi\\Estado\\": "packages/sat/estado/src",
+            "Cli\\Openssl\\": "packages/cli/openssl/src",
+            "Cli\\SaxonHe\\": "packages/cli/saxon-he/src",
+            "Cfdi\\Cleaner\\": "packages/cfdi/cleaner/src",
+            "Cfdi\\Utils\\": "packages/cfdi/utils/src",
+            "Cfdi\\Xml2Json\\": "packages/cfdi/xml2json/src",
+            "Cfdi\\Transform\\": "packages/cfdi/transform/src",
+            "Cfdi\\Pdf\\": "packages/cfdi/pdf/src",
+            "Cfdi\\Expresiones\\": "packages/cfdi/expresiones/src",
+            "Cfdi\\Designs\\": "packages/cfdi/designs/src",
+            "Cfdi\\Schema\\": "packages/cfdi/schema/src",
+            "Cfdi\\Xsd\\": "packages/cfdi/xsd/src",
+            "Sat\\Cancelacion\\": "packages/sat/cancelacion/src",
+            "Sat\\Contabilidad\\": "packages/sat/contabilidad/src",
+            "Sat\\Diot\\": "packages/sat/diot/src",
+            "Sat\\Scraper\\": "packages/sat/scraper/src",
+            "Sat\\Captcha\\": "packages/sat/captcha/src",
+            "Sat\\Opinion\\": "packages/sat/opinion/src",
+            "Renapo\\Curp\\": "packages/renapo/curp/src",
+            "Cfdi\\Descarga\\": "packages/cfdi/descarga/src",
+            "Cfdi\\Csf\\": "packages/cfdi/csf/src",
+            "Cfdi\\Retenciones\\": "packages/cfdi/retenciones/src",
+            "Cfdi\\Types\\": "packages/cfdi/types/src"
         }
     },
     "autoload-dev": {

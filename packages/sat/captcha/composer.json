@@ -1,0 +1,16 @@
+{
+    "name": "sat/captcha",
+    "version": "1.0.0",
+    "require": {
+        "php": "^8.3",
+        "ext-json": "*"
+    },
+    "suggest": {
+        "ext-curl": "Alternativa si allow_url_fopen está deshabilitado (no usado por defecto)"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sat\\Captcha\\": "src"
+        }
+    }
+}

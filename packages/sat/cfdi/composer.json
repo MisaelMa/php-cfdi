@@ -1,0 +1,35 @@
+{
+    "name": "sat/cfdi",
+    "version": "1.0.0",
+    "require": {
+        "php": "^8.3",
+        "ext-dom": "*",
+        "ext-openssl": "*",
+        "symfony/http-kernel": "^7.1.8",
+        "spatie/array-to-xml": "^3.3",
+        "sat/csd": "^1.0",
+        "cfdi/transform": "^1.0"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../csd",
+            "options": { "symlink": true }
+        },
+        {
+            "type": "path",
+            "url": "../../cfdi/transform",
+            "options": { "symlink": true }
+        },
+        {
+            "type": "path",
+            "url": "../../cli/openssl",
+            "options": { "symlink": true }
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Sat\\": "src"
+        }
+    }
+}
